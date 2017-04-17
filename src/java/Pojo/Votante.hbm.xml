@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 17-abr-2017 13:20:06 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="Pojo.Votante" table="votante" catalog="bd_votaciones" optimistic-lock="version">
+        <id name="idVotante" type="java.lang.Integer">
+            <column name="ID_VOTANTE" />
+            <generator class="identity" />
+        </id>
+        <property name="nif" type="string">
+            <column name="NIF" length="9" unique="true" />
+        </property>
+        <property name="pass" type="binary">
+            <column name="PASS" />
+        </property>
+        <property name="votado" type="string">
+            <column name="VOTADO" length="2" />
+        </property>
+    </class>
+</hibernate-mapping>
