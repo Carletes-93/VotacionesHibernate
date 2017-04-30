@@ -3,6 +3,7 @@ package Pojo;
 
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -15,16 +16,15 @@ public class Partido  implements java.io.Serializable {
      private String nombre;
      private String logo;
      private Integer numVotos;
-     private Set candidatos = new HashSet(0);
+     private List<Candidato> candidatos;
 
     public Partido() {
     }
 
-    public Partido(String nombre, String logo, Integer numVotos, Set candidatos) {
+    public Partido(String nombre, String logo, Integer numVotos) {
        this.nombre = nombre;
        this.logo = logo;
        this.numVotos = numVotos;
-       this.candidatos = candidatos;
     }
    
     public Integer getIdPartido() {
@@ -55,11 +55,11 @@ public class Partido  implements java.io.Serializable {
     public void setNumVotos(Integer numVotos) {
         this.numVotos = numVotos;
     }
-    public Set getCandidatos() {
+    public List getCandidatos() {
         return this.candidatos;
     }
     
-    public void setCandidatos(Set candidatos) {
+    public void setCandidatos(List candidatos) {
         this.candidatos = candidatos;
     }
 
