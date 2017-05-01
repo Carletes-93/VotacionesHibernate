@@ -248,15 +248,17 @@ public class Operaciones {
         for(int control=0; control<4; control++){ 
         //El número de candidatos elegidos serán 4 con lo que la operación debe hacerse 4 veces.
             float votosMax=0;
-            Integer idPartidoMax=0;
-            ArrayList<Candidato> aCandidatos=new ArrayList();
+            Integer indicePartidoMax=0;
             for(int pt=0; pt<aPartidosFin.size(); pt++){
                 if(aPartidosFin.get(pt).getNumVotos()>votosMax){
-                    idPartidoMax=aPartidosFin.get(pt).getIdPartido();
-                    Object cnd=aPartidosFin.get(pt).getCandidatos().iterator().next();
-                    //Si en la base de datos hubiera algún candidato la línea anterior funcionaría
+                    indicePartidoMax=pt;
+                    votosMax=aPartidosFin.get(pt).getNumVotos();
                 }  
             }
+            Candidato cnd=(Candidato)aPartidosFin.get(indicePartidoMax).getCandidatos().get(1);
+            aCandidatosFin.add(cnd);
+            aPartidosFin.get(indicePartidoMax).getCandidatos().remove(1);
+            aPartidosFin.get(indicePartidoMax).setNumVotos((aPartidosFin.get(indicePartidoMax).getNumVotos())/2);
         }
         return aCandidatosFin;
     }

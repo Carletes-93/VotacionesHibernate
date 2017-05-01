@@ -53,6 +53,7 @@ public class controladorResultados extends HttpServlet {
         session.setAttribute("resultado_partidos", aPartidosFin);
         session.setAttribute("total_votos", totalVotos);
         session.setAttribute("total_votantes", totalVotantes);
+        session.setAttribute("resultado_candidatos", aCandidatosFin);
         
         response.sendRedirect("Vista/vistaResultados.jsp");
         

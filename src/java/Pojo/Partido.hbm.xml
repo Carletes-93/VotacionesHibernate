@@ -17,11 +17,14 @@
         <property name="numVotos" type="java.lang.Integer">
             <column name="NUM_VOTOS" />
         </property>
-        <set name="candidatos" table="candidato" inverse="true" lazy="true" fetch="select">
+        <list name="candidatos" table="candidato" inverse="false" lazy="true" fetch="select">
             <key>
                 <column name="PARTIDO" not-null="true" />
             </key>
+            <list-index>
+                <column name="ORDEN" />
+            </list-index>
             <one-to-many class="Pojo.Candidato" />
-        </set>
+        </list>
     </class>
 </hibernate-mapping>
