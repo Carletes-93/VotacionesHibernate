@@ -50,6 +50,7 @@ public class controladorResultados extends HttpServlet {
         totalVotos = objop.cogerTotalVotos(SessionBuilder);
         totalVotantes = objop.cogerTotalVotantes(SessionBuilder);
         aCandidatosFin = objop.cogerCandidatos(SessionBuilder, aPartidosFin);
+        aCandidatosFin = objop.asignarEscaño(SessionBuilder, aCandidatosFin);
 
         
         session.setAttribute("resultado_partidos", aPartidosFinCopia);

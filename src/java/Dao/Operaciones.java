@@ -173,7 +173,7 @@ public class Operaciones {
 
         return aVotantes;
     }
-    
+
     public ArrayList<Partido> cogerPartidosOrden(SessionFactory SessionBuilder) throws HibernateException {
         ArrayList<Partido> aPartidos = new ArrayList();
 
@@ -191,36 +191,36 @@ public class Operaciones {
 
         return aPartidos;
     }
-    
+
     public int cogerTotalVotos(SessionFactory SessionBuilder) {
         Long sum;
         int totalVotos;
-        
+
         Session conexion = SessionBuilder.openSession();
         Query q = conexion.createQuery("SELECT SUM(p.numVotos) FROM Partido p");
-        
+
         List l = q.list();
         sum = (Long) l.get(0);
         totalVotos = sum.intValue();
-        
+
         return totalVotos;
     }
-    
+
     public int cogerTotalVotantes(SessionFactory SessionBuilder) {
         int totalVotantes;
-        
+
         Session conexion = SessionBuilder.openSession();
         Query q = conexion.createQuery("SELECT COUNT(v.NIF) FROM Votante v");
-        
+
         List l = q.list();
         totalVotantes = l.size();
-        
+
         return totalVotantes;
     }
-    
-    public Boolean cambiarPassVotante(SessionFactory SessionBuilder, Votante votante_cambiar){
+
+    public Boolean cambiarPassVotante(SessionFactory SessionBuilder, Votante votante_cambiar) {
         Boolean h;
-        
+
         Session conexion = SessionBuilder.openSession();
         Transaction trans = null;
 
@@ -239,27 +239,62 @@ public class Operaciones {
         } finally {
             conexion.close();
         }
-        
+
         return h;
     }
-    
-    public ArrayList<Candidato> cogerCandidatos(SessionFactory SessionBuilder, ArrayList<Partido> aPartidosFin){
-        ArrayList<Candidato> aCandidatosFin=new ArrayList();
-        for(int control=0; control<4; control++){ 
-        //El número de candidatos elegidos serán 4 con lo que la operación debe hacerse 4 veces.
-            float votosMax=0;
-            Integer indicePartidoMax=0;
-            for(int pt=0; pt<aPartidosFin.size(); pt++){
-                if(aPartidosFin.get(pt).getNumVotos()>votosMax){
-                    indicePartidoMax=pt;
-                    votosMax=aPartidosFin.get(pt).getNumVotos();
-                }  
+
+    public ArrayList<Candidato> cogerCandidatos(SessionFactory SessionBuilder, ArrayList<Partido> aPartidosFin) {
+        ArrayList<Candidato> aCandidatosFin = new ArrayList();
+        for (int control = 0; control < 4; control++) {
+            //El número de candidatos elegidos serán 4 con lo que la operación debe hacerse 4 veces.
+            float votosMax = 0;
+            Integer indicePartidoMax = 0;
+            for (int pt = 0; pt < aPartidosFin.size(); pt++) {
+                if (aPartidosFin.get(pt).getNumVotos() > votosMax) {
+                    indicePartidoMax = pt;
+                    votosMax = aPartidosFin.get(pt).getNumVotos();
+                }
             }
-            Candidato cnd=(Candidato)aPartidosFin.get(indicePartidoMax).getCandidatos().get(1);
+            Candidato cnd = (Candidato) aPartidosFin.get(indicePartidoMax).getCandidatos().get(1);
             aCandidatosFin.add(cnd);
             aPartidosFin.get(indicePartidoMax).getCandidatos().remove(1);
-            aPartidosFin.get(indicePartidoMax).setNumVotos((aPartidosFin.get(indicePartidoMax).getNumVotos())/2);
+            aPartidosFin.get(indicePartidoMax).setNumVotos((aPartidosFin.get(indicePartidoMax).getNumVotos()) / 2);
         }
         return aCandidatosFin;
+    }
+
+    public ArrayList<Candidato> asignarEscaño(SessionFactory SessionBuilder, ArrayList<Candidato> aCandidatos) {
+        Session conexion = SessionBuilder.openSession();
+
+        for (int i = 0; i < aCandidatos.size(); i++) {
+            Query q = conexion.createQuery("FROM Candidato WHERE nombre = :_nom");
+            q.setParameter("_nom", aCandidatos.get(i).getNombre());
+
+            List candidato = q.list();
+
+            Candidato candidatoEscaño = new Candidato();
+
+            if (!candidato.isEmpty()) {
+                candidatoEscaño = (Candidato) candidato.get(0);
+                aCandidatos.get(i).setEscano("S");
+                candidatoEscaño.setEscano("S");
+            }
+            
+            Transaction trans = null;
+            try {
+                trans = conexion.beginTransaction();
+
+                conexion.update(conexion.merge(candidatoEscaño));
+
+                trans.commit();
+            } catch (HibernateException ex) {
+
+                if (trans != null) {
+                    trans.rollback();
+                }
+            }
+        }
+        
+        return aCandidatos;
     }
 }
