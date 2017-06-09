@@ -1,5 +1,6 @@
 package Dao;
 
+import Pojo.Candidato;
 import Pojo.Partido;
 import Pojo.Votante;
 import java.sql.Connection;
@@ -240,5 +241,25 @@ public class Operaciones {
         }
         
         return h;
+    }
+    
+    public ArrayList<Candidato> cogerCandidatos(SessionFactory SessionBuilder, ArrayList<Partido> aPartidosFin){
+        ArrayList<Candidato> aCandidatosFin=new ArrayList();
+        for(int control=0; control<4; control++){ 
+        //El número de candidatos elegidos serán 4 con lo que la operación debe hacerse 4 veces.
+            float votosMax=0;
+            Integer indicePartidoMax=0;
+            for(int pt=0; pt<aPartidosFin.size(); pt++){
+                if(aPartidosFin.get(pt).getNumVotos()>votosMax){
+                    indicePartidoMax=pt;
+                    votosMax=aPartidosFin.get(pt).getNumVotos();
+                }  
+            }
+            Candidato cnd=(Candidato)aPartidosFin.get(indicePartidoMax).getCandidatos().get(1);
+            aCandidatosFin.add(cnd);
+            aPartidosFin.get(indicePartidoMax).getCandidatos().remove(1);
+            aPartidosFin.get(indicePartidoMax).setNumVotos((aPartidosFin.get(indicePartidoMax).getNumVotos())/2);
+        }
+        return aCandidatosFin;
     }
 }

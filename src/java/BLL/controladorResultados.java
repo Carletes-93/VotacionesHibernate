@@ -7,6 +7,7 @@ package BLL;
 
 import Dao.NewHibernateUtil;
 import Dao.Operaciones;
+import Pojo.Candidato;
 import Pojo.Partido;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -40,15 +41,21 @@ public class controladorResultados extends HttpServlet {
         int totalVotantes = 0;
         Operaciones objop = new Operaciones();
         ArrayList<Partido> aPartidosFin = new ArrayList();
+        ArrayList<Partido> aPartidosFinCopia = new ArrayList();
+        ArrayList<Candidato> aCandidatosFin = new ArrayList();
         HttpSession session = request.getSession(true);
 
         aPartidosFin = objop.cogerPartidosOrden(SessionBuilder);
+        aPartidosFinCopia = objop.cogerPartidosOrden(SessionBuilder);
         totalVotos = objop.cogerTotalVotos(SessionBuilder);
         totalVotantes = objop.cogerTotalVotantes(SessionBuilder);
+        aCandidatosFin = objop.cogerCandidatos(SessionBuilder, aPartidosFin);
+
         
-        session.setAttribute("resultado_partidos", aPartidosFin);
+        session.setAttribute("resultado_partidos", aPartidosFinCopia);
         session.setAttribute("total_votos", totalVotos);
         session.setAttribute("total_votantes", totalVotantes);
+        session.setAttribute("resultado_candidatos", aCandidatosFin);
         
         response.sendRedirect("Vista/vistaResultados.jsp");
         

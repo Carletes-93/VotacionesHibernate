@@ -4,12 +4,14 @@
     Author     : carlos
 --%>
 
+<%@page import="Pojo.Candidato"%>
 <%@page import="java.text.DecimalFormat"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="Pojo.Partido"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     ArrayList<Partido> aPartidosResultados = (ArrayList<Partido>) session.getAttribute("resultado_partidos");
+    ArrayList<Candidato> aCandidatosResultados = (ArrayList<Candidato>) session.getAttribute("resultado_candidatos");
     int totalvotos = Integer.parseInt(session.getAttribute("total_votos").toString());
     int totalvotantes = Integer.parseInt(session.getAttribute("total_votantes").toString());
     double porcentaje;
@@ -68,7 +70,7 @@
                                         <% out.print(aPartidosResultados.get(i).getNombre()); %>
                                     </td>
                                     <td>
-                                        Votos: <% out.print(aPartidosResultados.get(i).getNumVotos()); %>
+                                        Votos: <% out.print((int)aPartidosResultados.get(i).getNumVotos()); %>
                                     </td>
                                     <td>
                                         Porcentaje: 
@@ -77,6 +79,26 @@
                                             out.print(df.format(porcentaje));
                                         %>
                                         %
+                                    </td>
+                                </tr>
+                                <% }%>
+                            </tbody>
+                        </table>
+                        <table class="table table-hover">
+                            <thead>
+                                Candidatos elegidos
+                            </thead>
+                            <tbody>
+                                <% for (int i = 0; i < aCandidatosResultados.size(); i++) { %>
+                                <tr>
+                                    <td class="success">
+                                        <% out.print(i); %>
+                                    </td>
+                                    <td>
+                                        <% out.print(aCandidatosResultados.get(i).getNombre()); %>
+                                    </td>
+                                    <td style="width: 40%">
+                                        <img src="<% out.print(aPartidosResultados.get(i).getLogo()); %>" alt="<% out.print(aPartidosResultados.get(i).getNombre()); %>" class="img-rounded img-tabla">
                                     </td>
                                 </tr>
                                 <% }%>
