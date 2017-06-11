@@ -37,8 +37,8 @@
         <servlet-class>BLL.controladorCambiarPass</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>controladorConfCambPass</servlet-name>
-        <servlet-class>BLL.controladorConfCambPass</servlet-class>
+        <servlet-name>controladorConfPass</servlet-name>
+        <servlet-class>BLL.controladorConfPass</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>controladorAlta</servlet-name>
@@ -77,8 +77,8 @@
         <url-pattern>/controladorCambiarPass</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>controladorConfCambPass</servlet-name>
-        <url-pattern>/controladorConfCambPass</url-pattern>
+        <servlet-name>controladorConfPass</servlet-name>
+        <url-pattern>/controladorConfPass</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
