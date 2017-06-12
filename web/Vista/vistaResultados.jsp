@@ -92,7 +92,7 @@
                                 <% for (int i = 0; i < aCandidatosResultados.size(); i++) { %>
                                 <tr>
                                     <td class="success">
-                                        <% out.print(i); %>
+                                        <% out.print(i+1); %>
                                     </td>
                                     <td>
                                         <% out.print(aCandidatosResultados.get(i).getNombre()); %>
